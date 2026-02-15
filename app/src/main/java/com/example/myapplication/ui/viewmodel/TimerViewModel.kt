@@ -1,9 +1,13 @@
-package com.example.myapplication
+package com.example.myapplication.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 class TimerViewModel : ViewModel() {
@@ -18,7 +22,7 @@ class TimerViewModel : ViewModel() {
         _remainingTimeMillis, _totalTimeMillis
     ) { remaining, total ->
         if (total == 0L) 0f else remaining.toFloat() / total
-    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), 0f)
+    }.stateIn(viewModelScope, SharingStarted.Companion.WhileSubscribed(5000), 0f)
 
     fun startTimer(minutes: Int) {
         val totalMillis = minutes * 60 * 1000L

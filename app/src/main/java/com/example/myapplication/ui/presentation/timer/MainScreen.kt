@@ -20,9 +20,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.myapplication.AnimatedProgress
-import com.example.myapplication.SemiCircleTimer
-import com.example.myapplication.TimerViewModel
+import com.example.myapplication.ui.presentation.timer.AnimatedProgress
+import com.example.myapplication.ui.presentation.timer.SemiCircleTimer
+import com.example.myapplication.ui.viewmodel.TimerViewModel
 
 @Composable
 fun MainScreen(
@@ -67,7 +67,7 @@ fun MainScreen(
             remainingMillis = remaining,
             modifier = Modifier
                 .fillMaxWidth()
-                .aspectRatio(2f)
+                .aspectRatio(1f)
                 .padding(24.dp)
         )
 
