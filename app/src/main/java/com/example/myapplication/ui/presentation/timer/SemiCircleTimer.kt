@@ -1,10 +1,10 @@
 package com.example.myapplication.ui.presentation.timer
 
+import android.util.Log
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.BoxWithConstraints
-import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
@@ -47,22 +47,48 @@ fun SemiCircleTimer(
     ) {
 
         val density = LocalDensity.current
+        val weight = this.maxWidth
+        val height = this.maxHeight
 
-        val canvasWidth = constraints.maxWidth.toFloat()
-        val strokeWidthPx = canvasWidth * 0.08f // adaptive thickness
+        Log.i(
+            "Ninja",
+            "dimens: $weight $height $density"
+        )
 
-        Canvas(modifier = Modifier
-            .fillMaxWidth()
-            .aspectRatio(1f)) {
+        Canvas(
+            modifier = Modifier
+                .fillMaxSize()
+        ) {
 
-            val padding = strokeWidthPx / 2
+            val strokeWidth = 20 * density.density
+            val padding = strokeWidth / 2
 
-            val arcSize = Size(
-                width = size.width - 2 * padding,
-                height = size.height - 2 * padding
+            val bottom = size.height - padding
+
+            val theta = Math.toRadians(14.5)
+            val sinTheta = kotlin.math.sin(theta).toFloat()
+
+// 👇 constrain by BOTH width & height
+            val maxRadiusFromHeight = (bottom - padding) / (1f + sinTheta)
+            val maxRadiusFromWidth = (size.width - strokeWidth) / 2f
+
+            val radius = minOf(maxRadiusFromWidth, maxRadiusFromHeight)
+            val diameter = radius * 2
+
+            val arcSize = Size(size.width - strokeWidth, diameter)
+
+
+// center Y (so endpoints touch bottom)
+            val centerY = bottom - radius * sinTheta
+
+            val topLeft = Offset(
+                x = strokeWidth / 2,
+                y = centerY - radius
             )
-
-            val topLeft = Offset(padding, padding)
+            Log.i(
+                "Ninja",
+                "dimens: ${size.minDimension} ${size.height} ${size.width}"
+            )
 
             // Background arc
             drawArc(
@@ -71,7 +97,7 @@ fun SemiCircleTimer(
                 sweepAngle = 209f,
                 useCenter = false,
                 style = Stroke(
-                    width = strokeWidthPx,
+                    width = strokeWidth,
                     cap = StrokeCap.Round
                 ),
                 topLeft = topLeft,
@@ -85,13 +111,14 @@ fun SemiCircleTimer(
                 sweepAngle = 209f * progress,
                 useCenter = false,
                 style = Stroke(
-                    width = strokeWidthPx,
+                    width = strokeWidth,
                     cap = StrokeCap.Round
                 ),
                 topLeft = topLeft,
                 size = arcSize
             )
         }
+
 
         // Center text
         Text(
