@@ -3,7 +3,8 @@ package com.example.myapplication.ui.presentation.timer
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.BoxWithConstraints
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
@@ -41,7 +42,7 @@ fun SemiCircleTimer(
                 color = Color.LightGray.copy(alpha = 0.3f),
                 shape = RoundedCornerShape(26.dp)
             )
-            .padding(16.dp),
+            .padding(horizontal = 64.dp, vertical = 24.dp),
         contentAlignment = Alignment.Center
     ) {
 
@@ -50,7 +51,9 @@ fun SemiCircleTimer(
         val canvasWidth = constraints.maxWidth.toFloat()
         val strokeWidthPx = canvasWidth * 0.08f // adaptive thickness
 
-        Canvas(modifier = Modifier.fillMaxSize()) {
+        Canvas(modifier = Modifier
+            .fillMaxWidth()
+            .aspectRatio(1f)) {
 
             val padding = strokeWidthPx / 2
 
@@ -64,8 +67,8 @@ fun SemiCircleTimer(
             // Background arc
             drawArc(
                 color = Color.Gray.copy(alpha = 0.3f),
-                startAngle = 180f,
-                sweepAngle = 180f,
+                startAngle = 165.5f,
+                sweepAngle = 209f,
                 useCenter = false,
                 style = Stroke(
                     width = strokeWidthPx,
@@ -78,8 +81,8 @@ fun SemiCircleTimer(
             // Progress arc
             drawArc(
                 color = Color.Blue,
-                startAngle = 180f,
-                sweepAngle = 180f * progress,
+                startAngle = 165.5f,
+                sweepAngle = 209f * progress,
                 useCenter = false,
                 style = Stroke(
                     width = strokeWidthPx,

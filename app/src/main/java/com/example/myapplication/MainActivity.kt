@@ -1,6 +1,6 @@
 package com.example.myapplication
 
-import MainScreen
+import TimerScreen
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -13,7 +13,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            MainScreen()
+            TimerScreen()
         }
     }
 }
